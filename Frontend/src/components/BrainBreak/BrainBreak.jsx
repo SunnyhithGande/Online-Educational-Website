@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import './brainbreak.css';
 
 const BrainBreak = () => {
+    const navigate = useNavigate();
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [userAnswer, setUserAnswer] = useState('');
     const [showAnswer, setShowAnswer] = useState(false);
@@ -10,11 +12,46 @@ const BrainBreak = () => {
     const [questionType, setQuestionType] = useState('riddle'); // 'riddle' or 'quiz'
     const [totalQuestionsAttempted, setTotalQuestionsAttempted] = useState(0);
     const [breakTimeOver, setBreakTimeOver] = useState(false);
+    const [isStarted, setIsStarted] = useState(false);
     
     // Constants for limits
     const MAX_QUESTIONS = 5; // Maximum questions allowed
     const BREAK_TIME_LIMIT = 3 * 60; // 3 minutes total break time
     const [totalTimeLeft, setTotalTimeLeft] = useState(BREAK_TIME_LIMIT);
+
+    // Check authentication on component mount
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        
+        if (!token || !user) {
+            navigate('/login');
+            return;
+        }
+    }, [navigate]);
+
+    // Timer effect for total break time
+    useEffect(() => {
+        let totalTimer;
+        if (isStarted && totalTimeLeft > 0 && !breakTimeOver) {
+            totalTimer = setInterval(() => {
+                setTotalTimeLeft(prev => {
+                    if (prev <= 1) {
+                        setBreakTimeOver(true);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+
+        return () => clearInterval(totalTimer);
+    }, [totalTimeLeft, breakTimeOver, isStarted]);
+
+    const handleStart = () => {
+        setIsStarted(true);
+        setCurrentQuestion(getRandomQuestion());
+    };
 
     const questions = {
         riddles: [
@@ -49,24 +86,6 @@ const BrainBreak = () => {
             }
         ]
     };
-
-    // Timer effect for total break time
-    useEffect(() => {
-        let totalTimer;
-        if (totalTimeLeft > 0 && !breakTimeOver) {
-            totalTimer = setInterval(() => {
-                setTotalTimeLeft(prev => {
-                    if (prev <= 1) {
-                        setBreakTimeOver(true);
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-        }
-
-        return () => clearInterval(totalTimer);
-    }, [totalTimeLeft, breakTimeOver]);
 
     const checkAndUpdateAttempts = () => {
         const newTotal = totalQuestionsAttempted + 1;
@@ -106,10 +125,6 @@ const BrainBreak = () => {
         setShowAnswer(false);
     };
 
-    useEffect(() => {
-        setCurrentQuestion(getRandomQuestion());
-    }, [questionType]); // eslint-disable-line react-hooks/exhaustive-deps
-
     if (breakTimeOver) {
         return (
             <section className="brain-break">
@@ -126,6 +141,29 @@ const BrainBreak = () => {
                                 <p className="break-message">
                                     Time to get back to your studies! You can take another break later.
                                 </p>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </section>
+        );
+    }
+
+    if (!isStarted) {
+        return (
+            <section className="brain-break">
+                <Container>
+                    <Row className="justify-content-center">
+                        <Col lg="8">
+                            <div className="brain-break__wrapper">
+                                <h2>Ready for a Brain Break? 🧠</h2>
+                                <p>Take a quick break with fun riddles and quizzes!</p>
+                                <div className="start-section">
+                                    <p>You'll have {Math.floor(BREAK_TIME_LIMIT / 60)} minutes to answer up to {MAX_QUESTIONS} questions.</p>
+                                    <button className="btn start-btn" onClick={handleStart}>
+                                        Start Brain Break
+                                    </button>
+                                </div>
                             </div>
                         </Col>
                     </Row>

@@ -9,6 +9,8 @@ import BlogManagement from "./components/BlogManagement/BlogManagement";
 import "./components/BlogManagement/BlogManagement.css";
 import CourseEnrollment from "./components/CourseEnrollment/CourseEnrollment";
 import "./components/CourseEnrollment/CourseEnrollment.css";
+import BrainBreak from "./components/BrainBreak/BrainBreak";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -20,6 +22,14 @@ function App() {
         <Route path="/users" element={<UserManagement />} />
         <Route path="/blogs" element={<BlogManagement />} />
         <Route path="/courses/:courseId" element={<CourseEnrollment />} />
+        <Route 
+          path="/brain-break" 
+          element={
+            <ProtectedRoute>
+              <BrainBreak />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </div>
   );

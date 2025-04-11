@@ -56,6 +56,13 @@ const Header = () => {
                     </a>
                   </li>
                 ))}
+                {user && (
+                  <li className="nav__item">
+                    <Link to="/brain-break" onClick={() => setMenuOpen(false)}>
+                      Brain Break
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
 
@@ -68,20 +75,18 @@ const Header = () => {
                 <div className="user-menu">
                   <span className="username">👤 {user.name}</span>
                   <button
-  className="btn btn-outline-danger"
-  style={{
-    padding: "4px 8px",
-    fontSize: "12px",
-    lineHeight: "1.2",
-    width: "80px",
-    textAlign: "center"
-  }}
-  onClick={handleLogout}
->
-  Logout
-</button>
-
-
+                    className="btn btn-outline-danger"
+                    style={{
+                      padding: "4px 8px",
+                      fontSize: "12px",
+                      lineHeight: "1.2",
+                      width: "80px",
+                      textAlign: "center"
+                    }}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
                 </div>
               ) : (
                 <>
