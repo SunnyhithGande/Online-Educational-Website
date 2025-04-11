@@ -11,6 +11,7 @@ import FreeCourse from "../components/Free-course-section/FreeCourse";
 import Testimonials from "../components/Testimonial/Testimonials";
 import Newsletter from "../components/Newsletter/Newsletter";
 import Footer from "../components/Footer/Footer";
+import BrainBreak from "../components/BrainBreak/BrainBreak";
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <CompanySection />
       <AboutUs id="about" />
       <Courses id="courses" />
+      <BrainBreak />
       <ChooseUs id="pages" />
       <Features id="blog" />
       <FreeCourse />
