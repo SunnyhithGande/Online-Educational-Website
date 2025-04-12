@@ -74,6 +74,9 @@ const Header = () => {
               {user ? (
                 <div className="user-menu">
                   <span className="username">👤 {user.name}</span>
+                  <Link to="/dashboard" className="btn btn-outline-primary me-2">
+                    Dashboard
+                  </Link>
                   <button
                     className="btn btn-outline-danger"
                     style={{

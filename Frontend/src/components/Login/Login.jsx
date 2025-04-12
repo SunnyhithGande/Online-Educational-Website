@@ -21,7 +21,7 @@ const Login = () => {
       if (res.data.user && res.data.user._id) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/");
+        navigate("/dashboard");
       } else {
         setError("Invalid response from server");
       }

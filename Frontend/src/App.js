@@ -11,6 +11,8 @@ import CourseEnrollment from "./components/CourseEnrollment/CourseEnrollment";
 import "./components/CourseEnrollment/CourseEnrollment.css";
 import BrainBreak from "./components/BrainBreak/BrainBreak";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./components/Dashboard/Dashboard";
+import "./components/Dashboard/Dashboard.css";
 
 function App() {
   return (
@@ -27,6 +29,14 @@ function App() {
           element={
             <ProtectedRoute>
               <BrainBreak />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
             </ProtectedRoute>
           } 
         />
