@@ -14,6 +14,7 @@ const UserManagement = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
     const [currentUser, setCurrentUser] = useState(null);
 
     const API_URL = 'http://localhost:5003';
@@ -21,12 +22,19 @@ const UserManagement = () => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         setCurrentUser(user);
+=======
+
+    const API_URL = 'http://localhost:5001';
+
+    useEffect(() => {
+>>>>>>> origin/main
         fetchUsers();
     }, []);
 
     const fetchUsers = async () => {
         setLoading(true);
         try {
+<<<<<<< HEAD
             const token = localStorage.getItem('token');
             const config = {
                 headers: {
@@ -34,11 +42,18 @@ const UserManagement = () => {
                 }
             };
             const response = await axios.get(`${API_URL}/users`, config);
+=======
+            const response = await axios.get(`${API_URL}/users`);
+>>>>>>> origin/main
             setUsers(response.data);
             setError('');
         } catch (error) {
             console.error('Error fetching users:', error);
+<<<<<<< HEAD
             setError(error.response?.data?.message || 'Failed to fetch users. Please try again.');
+=======
+            setError('Failed to fetch users. Please try again.');
+>>>>>>> origin/main
         } finally {
             setLoading(false);
         }
@@ -55,6 +70,7 @@ const UserManagement = () => {
         e.preventDefault();
         setLoading(true);
         try {
+<<<<<<< HEAD
             const token = localStorage.getItem('token');
             const config = {
                 headers: {
@@ -66,6 +82,13 @@ const UserManagement = () => {
                 setSuccess('User updated successfully');
             } else {
                 await axios.post(`${API_URL}/signup`, formData, config);
+=======
+            if (editingId) {
+                await axios.put(`${API_URL}/users/${editingId}`, formData);
+                setSuccess('User updated successfully');
+            } else {
+                await axios.post(`${API_URL}/signup`, formData);
+>>>>>>> origin/main
                 setSuccess('User created successfully');
             }
             setFormData({ name: '', email: '', password: '' });
@@ -93,6 +116,7 @@ const UserManagement = () => {
         if (window.confirm('Are you sure you want to delete this user?')) {
             setLoading(true);
             try {
+<<<<<<< HEAD
                 const token = localStorage.getItem('token');
                 const config = {
                     headers: {
@@ -100,12 +124,19 @@ const UserManagement = () => {
                     }
                 };
                 await axios.delete(`${API_URL}/users/${id}`, config);
+=======
+                await axios.delete(`${API_URL}/users/${id}`);
+>>>>>>> origin/main
                 setSuccess('User deleted successfully');
                 fetchUsers();
                 setError('');
             } catch (error) {
                 console.error('Error deleting user:', error);
+<<<<<<< HEAD
                 setError(error.response?.data?.message || 'Failed to delete user. Please try again.');
+=======
+                setError('Failed to delete user. Please try again.');
+>>>>>>> origin/main
             } finally {
                 setLoading(false);
             }
@@ -113,7 +144,11 @@ const UserManagement = () => {
     };
 
     return (
+<<<<<<< HEAD
         <>
+=======
+        <div>
+>>>>>>> origin/main
             <Header />
             <div className="user-management-container">
                 <h2>User Management</h2>
@@ -199,6 +234,7 @@ const UserManagement = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
+<<<<<<< HEAD
                                     {users.map((user) => (
                                         <tr key={user._id}>
                                             <td>{user.name}</td>
@@ -225,6 +261,27 @@ const UserManagement = () => {
                                                 {currentUser && currentUser.role === 'admin' && currentUser._id === user._id && (
                                                     <span style={{ color: '#6c757d' }}>Cannot delete self</span>
                                                 )}
+=======
+                                    {users.map(user => (
+                                        <tr key={user._id}>
+                                            <td>{user.name}</td>
+                                            <td>{user.email}</td>
+                                            <td>
+                                                <button
+                                                    className="btn-edit"
+                                                    onClick={() => handleEdit(user)}
+                                                    disabled={loading}
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    className="btn-delete"
+                                                    onClick={() => handleDelete(user._id)}
+                                                    disabled={loading}
+                                                >
+                                                    Delete
+                                                </button>
+>>>>>>> origin/main
                                             </td>
                                         </tr>
                                     ))}
@@ -234,7 +291,11 @@ const UserManagement = () => {
                     )}
                 </div>
             </div>
+<<<<<<< HEAD
         </>
+=======
+        </div>
+>>>>>>> origin/main
     );
 };
 

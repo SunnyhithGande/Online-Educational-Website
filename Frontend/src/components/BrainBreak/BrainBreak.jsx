@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { Container, Row, Col, Button } from 'reactstrap';
 import './brainbreak.css';
 
 const BrainBreak = (props) => {
+=======
+import { Container, Row, Col } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import './brainbreak.css';
+
+const BrainBreak = () => {
+    const navigate = useNavigate();
+>>>>>>> origin/main
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [userAnswer, setUserAnswer] = useState('');
     const [showAnswer, setShowAnswer] = useState(false);
@@ -10,13 +19,54 @@ const BrainBreak = (props) => {
     const [questionType, setQuestionType] = useState('riddle'); // 'riddle' or 'quiz'
     const [totalQuestionsAttempted, setTotalQuestionsAttempted] = useState(0);
     const [breakTimeOver, setBreakTimeOver] = useState(false);
+<<<<<<< HEAD
     const [quizStarted, setQuizStarted] = useState(false);
+=======
+    const [isStarted, setIsStarted] = useState(false);
+>>>>>>> origin/main
     
     // Constants for limits
     const MAX_QUESTIONS = 5; // Maximum questions allowed
     const BREAK_TIME_LIMIT = 3 * 60; // 3 minutes total break time
     const [totalTimeLeft, setTotalTimeLeft] = useState(BREAK_TIME_LIMIT);
 
+<<<<<<< HEAD
+=======
+    // Check authentication on component mount
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        
+        if (!token || !user) {
+            navigate('/login');
+            return;
+        }
+    }, [navigate]);
+
+    // Timer effect for total break time
+    useEffect(() => {
+        let totalTimer;
+        if (isStarted && totalTimeLeft > 0 && !breakTimeOver) {
+            totalTimer = setInterval(() => {
+                setTotalTimeLeft(prev => {
+                    if (prev <= 1) {
+                        setBreakTimeOver(true);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+
+        return () => clearInterval(totalTimer);
+    }, [totalTimeLeft, breakTimeOver, isStarted]);
+
+    const handleStart = () => {
+        setIsStarted(true);
+        setCurrentQuestion(getRandomQuestion());
+    };
+
+>>>>>>> origin/main
     const questions = {
         riddles: [
             {
@@ -51,6 +101,7 @@ const BrainBreak = (props) => {
         ]
     };
 
+<<<<<<< HEAD
     // Timer effect for total break time
     useEffect(() => {
         let totalTimer;
@@ -69,6 +120,8 @@ const BrainBreak = (props) => {
         return () => clearInterval(totalTimer);
     }, [totalTimeLeft, breakTimeOver, quizStarted]);
 
+=======
+>>>>>>> origin/main
     const checkAndUpdateAttempts = () => {
         const newTotal = totalQuestionsAttempted + 1;
         setTotalQuestionsAttempted(newTotal);
@@ -107,6 +160,7 @@ const BrainBreak = (props) => {
         setShowAnswer(false);
     };
 
+<<<<<<< HEAD
     useEffect(() => {
         if (quizStarted) {
             setCurrentQuestion(getRandomQuestion());
@@ -136,6 +190,11 @@ const BrainBreak = (props) => {
     if (breakTimeOver) {
         return (
             <section className="brain-break" id={props.id}>
+=======
+    if (breakTimeOver) {
+        return (
+            <section className="brain-break">
+>>>>>>> origin/main
                 <Container>
                     <Row className="justify-content-center">
                         <Col lg="8">
@@ -157,12 +216,42 @@ const BrainBreak = (props) => {
         );
     }
 
+<<<<<<< HEAD
+=======
+    if (!isStarted) {
+        return (
+            <section className="brain-break">
+                <Container>
+                    <Row className="justify-content-center">
+                        <Col lg="8">
+                            <div className="brain-break__wrapper">
+                                <h2>Ready for a Brain Break? 🧠</h2>
+                                <p>Take a quick break with fun riddles and quizzes!</p>
+                                <div className="start-section">
+                                    <p>You'll have {Math.floor(BREAK_TIME_LIMIT / 60)} minutes to answer up to {MAX_QUESTIONS} questions.</p>
+                                    <button className="btn start-btn" onClick={handleStart}>
+                                        Start Brain Break
+                                    </button>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </section>
+        );
+    }
+
+>>>>>>> origin/main
     if (!currentQuestion) {
         return <div>Loading...</div>;
     }
 
     return (
+<<<<<<< HEAD
         <section className="brain-break" id={props.id}>
+=======
+        <section className="brain-break">
+>>>>>>> origin/main
             <Container>
                 <Row className="justify-content-center">
                     <Col lg="8">
@@ -222,11 +311,16 @@ const BrainBreak = (props) => {
                                         type="text"
                                         value={userAnswer}
                                         onChange={(e) => setUserAnswer(e.target.value)}
+<<<<<<< HEAD
                                         placeholder="Enter your answer"
+=======
+                                        placeholder="Your answer..."
+>>>>>>> origin/main
                                         disabled={showAnswer}
                                     />
                                 )}
 
+<<<<<<< HEAD
                                 <button onClick={handleSubmit} disabled={showAnswer}>
                                     Submit
                                 </button>
@@ -234,6 +328,23 @@ const BrainBreak = (props) => {
                                     <button onClick={handleNext}>
                                         Next Question
                                     </button>
+=======
+                                {!showAnswer ? (
+                                    <button className="btn submit-btn" onClick={handleSubmit}>
+                                        Submit Answer
+                                    </button>
+                                ) : (
+                                    <div className="answer-section">
+                                        <p className="answer">
+                                            {userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase() 
+                                                ? "🎉 Correct!" 
+                                                : `Wrong! The answer is: ${currentQuestion.answer}`}
+                                        </p>
+                                        <button className="btn next-btn" onClick={handleNext}>
+                                            Next Question
+                                        </button>
+                                    </div>
+>>>>>>> origin/main
                                 )}
                             </div>
                         </div>

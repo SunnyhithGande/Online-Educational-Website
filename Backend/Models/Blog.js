@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
+<<<<<<< HEAD
 const slugify = require('slugify');
+=======
+>>>>>>> origin/main
 
 const BlogSchema = new mongoose.Schema({
     title: {
         type: String,
+<<<<<<< HEAD
         required: [true, 'A blog must have a title'],
         trim: true,
         maxlength: [100, 'Title cannot be more than 100 characters']
@@ -17,6 +21,17 @@ const BlogSchema = new mongoose.Schema({
     content: {
         type: String,
         required: [true, 'A blog must have content']
+=======
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+>>>>>>> origin/main
     },
     image: {
         type: String,
@@ -29,6 +44,7 @@ const BlogSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+<<<<<<< HEAD
         required: [true, 'A blog must have an author']
     },
     createdAt: {
@@ -131,5 +147,10 @@ BlogSchema.pre(/^find/, function(next) {
     });
     next();
 });
+=======
+        required: true
+    }
+}, { timestamps: true });
+>>>>>>> origin/main
 
 module.exports = mongoose.model("Blog", BlogSchema); 
